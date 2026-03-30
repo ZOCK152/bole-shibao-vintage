@@ -11,11 +11,17 @@
     </div>
 
     <div class="stack-card">
-      <div class="info-row"><span>微信</span><strong>{{ contact_info.wechat }}</strong></div>
+      <div class="info-row">
+        <span>联系微信</span>
+        <strong>{{ contact_info.wechat }}</strong>
+      </div>
       <div class="info-row"><span>WhatsApp</span><strong>{{ contact_info.whatsapp }}</strong></div>
       <div class="info-row"><span>Telegram</span><strong>{{ contact_info.telegram }}</strong></div>
       <div class="info-row"><span>手机号</span><strong>{{ contact_info.phone }}</strong></div>
       <div class="info-row"><span>邮箱</span><strong>{{ contact_info.email }}</strong></div>
+      <div class="hero-actions compact-actions">
+        <button class="button primary" type="button" data-copy-text="{{ contact_info.wechat }}">复制微信号</button>
+      </div>
     </div>
   </section>
 {% endblock %}

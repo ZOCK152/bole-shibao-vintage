@@ -5,14 +5,24 @@
 {% block content %}
   <section class="shell section detail-layout">
     <div class="detail-gallery">
-      <div class="detail-main-image">
+      <button
+        class="detail-main-image zoom-trigger"
+        type="button"
+        data-image-src="{{ url_for('static', filename=product.main_image) }}"
+        aria-label="查看大图"
+      >
         <img src="{{ url_for('static', filename=product.main_image) }}" alt="{{ product.model }}">
-      </div>
+      </button>
       <div class="thumb-grid">
         {% for image in product.detail_images %}
-          <div class="thumb-item">
+          <button
+            class="thumb-item zoom-trigger"
+            type="button"
+            data-image-src="{{ url_for('static', filename=image) }}"
+            aria-label="查看大图 {{ loop.index }}"
+          >
             <img src="{{ url_for('static', filename=image) }}" alt="{{ product.model }} 图 {{ loop.index }}">
-          </div>
+          </button>
         {% endfor %}
       </div>
     </div>
@@ -37,9 +47,60 @@
 
       <div class="purchase-box">
         <h2>购买方式</h2>
-        <p>添加微信 {{ contact_info.wechat }} / QQ</p>
+        <p>联系微信：{{ contact_info.wechat }} / QQ</p>
+        <button class="button secondary small-button" type="button" data-copy-text="{{ contact_info.wechat }}">复制微信号</button>
         <p>下单前请先了解古着中古商品属性，默认微瑕。</p>
       </div>
     </div>
   </section>
+
+  <div class="lightbox" id="image-lightbox" aria-hidden="true">
+    <button class="lightbox-close" type="button" aria-label="关闭大图">×</button>
+    <div class="lightbox-backdrop" data-lightbox-close></div>
+    <div class="lightbox-content">
+      <img id="lightbox-image" src="" alt="商品大图预览">
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    (() => {
+      const lightbox = document.getElementById("image-lightbox");
+      const lightboxImage = document.getElementById("lightbox-image");
+      if (!lightbox || !lightboxImage) return;
+
+      const openLightbox = (src) => {
+        lightboxImage.src = src;
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("lightbox-open");
+      };
+
+      const closeLightbox = () => {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        lightboxImage.src = "";
+        document.body.classList.remove("lightbox-open");
+      };
+
+      document.addEventListener("click", (event) => {
+        const trigger = event.target.closest(".zoom-trigger");
+        if (trigger) {
+          openLightbox(trigger.getAttribute("data-image-src"));
+          return;
+        }
+
+        if (event.target.closest("[data-lightbox-close]") || event.target.closest(".lightbox-close")) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeLightbox();
+        }
+      });
+    })();
+  </script>
 {% endblock %}

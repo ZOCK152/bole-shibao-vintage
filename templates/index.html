@@ -9,7 +9,8 @@
       <h1>伯乐拾宝vintage</h1>
       <p class="hero-note">各位老板了解古着中古再下单，默认微瑕，完美主义勿拍。</p>
       <div class="hero-actions">
-        <a class="button primary" href="{{ url_for('contact') }}">添加微信 {{ contact_info.wechat }}</a>
+        <a class="button primary" href="{{ url_for('contact') }}">微信号：{{ contact_info.wechat }}</a>
+        <button class="button secondary" type="button" data-copy-text="{{ contact_info.wechat }}">复制微信号</button>
         <a class="button secondary" href="{{ url_for('service') }}">查看售后说明</a>
       </div>
     </div>
@@ -21,6 +22,25 @@
       <p>所有商品均为实拍，一物一拍。
 库存实时更新，售出即下架。</p>
     </div>
+
+    <form class="search-panel" method="get" action="{{ url_for('index') }}">
+      <div class="search-row">
+        <input
+          class="search-input"
+          type="text"
+          name="q"
+          value="{{ search_query }}"
+          placeholder="搜索编码或型号尺码组合"
+        >
+        <button class="button primary search-button" type="submit">搜索</button>
+      </div>
+      <div class="search-meta">
+        <span>示例：50180</span>
+        {% if search_query %}
+          <a href="{{ url_for('index') }}">清空搜索</a>
+        {% endif %}
+      </div>
+    </form>
 
     {% if products %}
       <div class="product-grid">
@@ -43,7 +63,13 @@
         {% endfor %}
       </div>
     {% else %}
-      <div class="empty-box">后台还没有商品数据，请先进入管理系统新增商品。</div>
+      <div class="empty-box">
+        {% if search_query %}
+          没有找到与“{{ search_query }}”匹配的商品，请换个关键词试试。
+        {% else %}
+          后台还没有商品数据，请先进入管理系统新增商品。
+        {% endif %}
+      </div>
     {% endif %}
   </section>
 {% endblock %}

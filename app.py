@@ -36,7 +36,7 @@ ADMIN_USERNAME = os.environ.get("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.environ.get("ADMIN_PASSWORD", "admin123456")
 
 CONTACT_INFO = {
-    "wechat": "18942298884",
+    "wechat": "GMMG528",
     "whatsapp": "待补充",
     "telegram": "待补充",
     "phone": "待补充",
@@ -204,6 +204,55 @@ def serialize_product(row: sqlite3.Row) -> dict[str, Any]:
     }
 
 
+def normalize_search_text(value: str) -> str:
+    return "".join(char.lower() for char in value if char.isalnum())
+
+
+def digits_only(value: str) -> str:
+    return "".join(char for char in value if char.isdigit())
+
+
+def filter_products(products: list[dict[str, Any]], query: str) -> list[dict[str, Any]]:
+    normalized_query = normalize_search_text(query)
+    numeric_query = digits_only(query)
+    if not normalized_query:
+        return products
+
+    filtered_products: list[dict[str, Any]] = []
+    for product in products:
+        code = normalize_search_text(product["code"])
+        code_digits = digits_only(product["code"])
+        model_digits = digits_only(product["model"])
+        waist_digits = digits_only(product["waist"])
+        length_digits = digits_only(product["length"])
+        combined_digits = f"{model_digits}{waist_digits}{length_digits}"
+        model_waist_digits = f"{model_digits}{waist_digits}"
+        searchable_text = normalize_search_text(
+            f"{product['code']} {product['model']} {product['waist']} {product['length']} "
+            f"{product['color']} {product['description']}"
+        )
+
+        matches_text = (
+            normalized_query in code
+            or normalized_query in searchable_text
+            or normalized_query in combined_digits
+            or normalized_query in model_waist_digits
+        )
+        matches_digits = bool(
+            numeric_query
+            and (
+                numeric_query in code_digits
+                or combined_digits.startswith(numeric_query)
+                or model_waist_digits.startswith(numeric_query)
+            )
+        )
+
+        if matches_text or matches_digits:
+            filtered_products.append(product)
+
+    return filtered_products
+
+
 def fetch_all_products(include_sold: bool = True) -> list[dict[str, Any]]:
     db = get_db()
     if include_sold:
@@ -293,10 +342,13 @@ def validate_product_form(data: dict[str, Any], current_id: int | None = None) -
 
 @app.route("/")
 def index():
+    search_query = request.args.get("q", "").strip()
+    products = filter_products(fetch_all_products(include_sold=True), search_query)
     return render_template(
         "index.html",
-        products=fetch_all_products(include_sold=True),
+        products=products,
         contact_info=CONTACT_INFO,
+        search_query=search_query,
     )
 
 

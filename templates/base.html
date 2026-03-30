@@ -33,5 +33,38 @@
   </main>
 
   <a class="floating-contact" href="{{ url_for('contact') }}">联系我</a>
+  <div id="copy-toast" class="copy-toast" aria-live="polite"></div>
+
+  <script>
+    (() => {
+      const toast = document.getElementById("copy-toast");
+
+      window.showCopyToast = (message) => {
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        window.clearTimeout(window.__copyToastTimer);
+        window.__copyToastTimer = window.setTimeout(() => {
+          toast.classList.remove("is-visible");
+        }, 1800);
+      };
+
+      document.addEventListener("click", async (event) => {
+        const copyButton = event.target.closest("[data-copy-text]");
+        if (!copyButton) return;
+
+        const text = copyButton.getAttribute("data-copy-text");
+        if (!text) return;
+
+        try {
+          await navigator.clipboard.writeText(text);
+          window.showCopyToast("微信号已复制");
+        } catch (error) {
+          window.showCopyToast("复制失败，请手动复制");
+        }
+      });
+    })();
+  </script>
+  {% block scripts %}{% endblock %}
 </body>
 </html>
