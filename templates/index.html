@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}伯乐拾宝vintage | 李维斯牛仔裤{% endblock %}
+
+{% block content %}
+  <section class="hero shell">
+    <div class="hero-copy">
+      <p class="eyebrow">Levi's Vintage Denim</p>
+      <h1>伯乐拾宝vintage</h1>
+      <p class="hero-note">各位老板了解古着中古再下单，默认微瑕，完美主义勿拍。</p>
+      <div class="hero-actions">
+        <a class="button primary" href="{{ url_for('contact') }}">添加微信 {{ contact_info.wechat }}</a>
+        <a class="button secondary" href="{{ url_for('service') }}">查看售后说明</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="shell section">
+    <div class="section-head">
+      <h2>在售商品</h2>
+      <p>所有商品均为实拍，一物一拍。
+库存实时更新，售出即下架。</p>
+    </div>
+
+    {% if products %}
+      <div class="product-grid">
+        {% for product in products %}
+          <a class="product-card" href="{{ url_for('product_detail', code=product.code) }}">
+            <div class="product-image-wrap">
+              <img src="{{ url_for('static', filename=product.main_image) }}" alt="{{ product.model }}">
+            </div>
+            <div class="product-card-body">
+              <div class="product-line">
+                <h3>{{ product.model }}</h3>
+                <span class="price">{{ product.price }}</span>
+              </div>
+              <p class="meta">编码 {{ product.code }}</p>
+              <p class="meta">腰围 {{ product.waist }} / 裤长 {{ product.length }}</p>
+              <p class="meta">颜色 {{ product.color }}</p>
+              <p class="badge {% if product.stock_status == '已售' %}badge-sold{% endif %}">{{ product.stock_status }}</p>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-box">后台还没有商品数据，请先进入管理系统新增商品。</div>
+    {% endif %}
+  </section>
+{% endblock %}

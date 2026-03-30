@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.model }} | 伯乐拾宝vintage{% endblock %}
+
+{% block content %}
+  <section class="shell section detail-layout">
+    <div class="detail-gallery">
+      <div class="detail-main-image">
+        <img src="{{ url_for('static', filename=product.main_image) }}" alt="{{ product.model }}">
+      </div>
+      <div class="thumb-grid">
+        {% for image in product.detail_images %}
+          <div class="thumb-item">
+            <img src="{{ url_for('static', filename=image) }}" alt="{{ product.model }} 图 {{ loop.index }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="detail-info">
+      <p class="eyebrow">Levi's Denim</p>
+      <h1>{{ product.model }}</h1>
+      <p class="detail-price">{{ product.price }}</p>
+      <p class="detail-text">{{ product.description or "商品细节请通过联系方式咨询。" }}</p>
+
+      <div class="info-card">
+        <div class="info-row"><span>编码</span><strong>{{ product.code }}</strong></div>
+        <div class="info-row"><span>型号</span><strong>{{ product.model }}</strong></div>
+        <div class="info-row"><span>腰围</span><strong>{{ product.waist }}</strong></div>
+        <div class="info-row"><span>裤长</span><strong>{{ product.length }}</strong></div>
+        <div class="info-row"><span>颜色</span><strong>{{ product.color }}</strong></div>
+        <div class="info-row"><span>状态</span><strong>{{ product.condition }}</strong></div>
+        <div class="info-row"><span>价格</span><strong>{{ product.price }}</strong></div>
+        <div class="info-row"><span>库存状态</span><strong>{{ product.stock_status }}</strong></div>
+        <div class="info-row"><span>产地</span><strong>{{ product.origin or "未填写" }}</strong></div>
+      </div>
+
+      <div class="purchase-box">
+        <h2>购买方式</h2>
+        <p>添加微信 {{ contact_info.wechat }} / QQ</p>
+        <p>下单前请先了解古着中古商品属性，默认微瑕。</p>
+      </div>
+    </div>
+  </section>
+{% endblock %}

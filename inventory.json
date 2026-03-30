@@ -1,0 +1,75 @@
+[
+  {
+    "code": "50180100",
+    "model": "Levi's 501",
+    "waist": "80",
+    "length": "100",
+    "color": "蓝色",
+    "condition": "中古，默认微瑕",
+    "price": "¥299",
+    "stock_status": "有货",
+    "origin": "日本",
+    "description": "经典直筒版型，适合日常穿搭。",
+    "images": {
+      "main": "images/placeholder.svg",
+      "front": "images/placeholder.svg",
+      "back": "images/placeholder.svg",
+      "gallery": [
+        "images/placeholder.svg",
+        "images/placeholder.svg",
+        "images/placeholder.svg"
+      ]
+    }
+  },
+  {
+    "code": "50582102",
+    "model": "Levi's 505",
+    "waist": "82",
+    "length": "102",
+    "color": "深蓝色",
+    "condition": "良好，有正常使用痕迹",
+    "price": "¥329",
+    "stock_status": "有货",
+    "origin": "美国",
+    "description": "拉链门襟，水洗自然，适合复古通勤风格。",
+    "images": {
+      "main": "images/placeholder.svg",
+      "front": "images/placeholder.svg",
+      "back": "images/placeholder.svg",
+      "gallery": [
+        "images/placeholder.svg",
+        "images/placeholder.svg",
+        "images/placeholder.svg",
+        "images/placeholder.svg"
+      ]
+    }
+  },
+  {
+    "code": "50184106",
+    "model": "Levi's 501",
+    "waist": "84",
+    "length": "106",
+    "color": "深蓝",
+    "condition": "中古，默认微瑕",
+    "price": "¥899",
+    "stock_status": "已售",
+    "origin": "",
+    "description": "经典501直筒版型，深蓝原色牛仔。",
+    "images": {
+      "main": "images/50184106-main.png",
+      "back": "images/50184106-back.png",
+      "gallery": [
+        "images/50184106-main.png",
+        "images/50184106-back.png",
+        "images/50184106- (2).png",
+        "images/50184106- (3).png",
+        "images/50184106- (4).png",
+        "images/50184106- (5).png",
+        "images/50184106- (6).png",
+        "images/50184106- (7).png",
+        "images/50184106- (8).png",
+        "images/50184106- (9).png"
+      ]
+    }
+  }
+]

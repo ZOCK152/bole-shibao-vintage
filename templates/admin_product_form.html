@@ -1,0 +1,91 @@
+{% extends "admin_base.html" %}
+
+{% block title %}{% if is_edit %}编辑商品{% else %}新增商品{% endif %} | 后台管理{% endblock %}
+
+{% block content %}
+  <section class="shell section">
+    <div class="page-head">
+      <p class="eyebrow">Editor</p>
+      <h1>{% if is_edit %}编辑商品{% else %}新增商品{% endif %}</h1>
+      <p>主图、背面图和细节图都可以直接上传，系统会自动保存到 `static/images`。</p>
+    </div>
+
+    <form class="admin-form card-form" method="post" enctype="multipart/form-data">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="code">编码</label>
+          <input id="code" name="code" type="text" value="{{ product.code }}" required>
+        </div>
+        <div class="form-group">
+          <label for="model">型号</label>
+          <input id="model" name="model" type="text" value="{{ product.model }}" required>
+        </div>
+        <div class="form-group">
+          <label for="waist">腰围</label>
+          <input id="waist" name="waist" type="text" value="{{ product.waist }}" required>
+        </div>
+        <div class="form-group">
+          <label for="length">裤长</label>
+          <input id="length" name="length" type="text" value="{{ product.length }}" required>
+        </div>
+        <div class="form-group">
+          <label for="color">颜色</label>
+          <input id="color" name="color" type="text" value="{{ product.color }}">
+        </div>
+        <div class="form-group">
+          <label for="condition">状态</label>
+          <input id="condition" name="condition" type="text" value="{{ product.condition }}">
+        </div>
+        <div class="form-group">
+          <label for="price">价格</label>
+          <input id="price" name="price" type="text" value="{{ product.price }}">
+        </div>
+        <div class="form-group">
+          <label for="stock_status">库存状态</label>
+          <select id="stock_status" name="stock_status">
+            <option value="有货" {% if product.stock_status == '有货' %}selected{% endif %}>有货</option>
+            <option value="已售" {% if product.stock_status == '已售' %}selected{% endif %}>已售</option>
+          </select>
+        </div>
+        <div class="form-group form-group-full">
+          <label for="origin">产地</label>
+          <input id="origin" name="origin" type="text" value="{{ product.origin }}">
+        </div>
+        <div class="form-group form-group-full">
+          <label for="description">描述</label>
+          <textarea id="description" name="description" rows="5">{{ product.description }}</textarea>
+        </div>
+        <div class="form-group">
+          <label for="main_image">主图</label>
+          <input id="main_image" name="main_image" type="file" accept="image/*">
+        </div>
+        <div class="form-group">
+          <label for="back_image">背面图</label>
+          <input id="back_image" name="back_image" type="file" accept="image/*">
+        </div>
+        <div class="form-group form-group-full">
+          <label for="gallery_images">细节图</label>
+          <input id="gallery_images" name="gallery_images" type="file" accept="image/*" multiple>
+        </div>
+      </div>
+
+      {% if product.detail_images %}
+        <div class="current-images">
+          <p class="current-images-title">当前图片</p>
+          <div class="thumb-grid admin-thumb-grid">
+            {% for image in product.detail_images %}
+              <div class="thumb-item">
+                <img src="{{ url_for('static', filename=image) }}" alt="当前图片 {{ loop.index }}">
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="hero-actions">
+        <button class="button primary" type="submit">{% if is_edit %}保存修改{% else %}创建商品{% endif %}</button>
+        <a class="button secondary" href="{{ url_for('admin_products') }}">返回列表</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

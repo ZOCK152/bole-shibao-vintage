@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}伯乐拾宝vintage{% endblock %}</title>
+  <meta name="description" content="伯乐拾宝vintage，主打李维斯牛仔裤展示与联系成交。">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell nav-wrap">
+      <a class="brand" href="{{ url_for('index') }}">伯乐拾宝vintage</a>
+      <nav class="nav">
+        <a href="{{ url_for('index') }}">首页</a>
+        <a href="{{ url_for('contact') }}">联系方式</a>
+        <a href="{{ url_for('service') }}">客服与售后</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <section class="shell flash-stack">
+          {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+
+  <a class="floating-contact" href="{{ url_for('contact') }}">联系我</a>
+</body>
+</html>

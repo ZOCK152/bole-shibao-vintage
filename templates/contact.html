@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}联系方式 | 伯乐拾宝vintage{% endblock %}
+
+{% block content %}
+  <section class="shell section">
+    <div class="page-head">
+      <p class="eyebrow">Contact</p>
+      <h1>联系方式</h1>
+      <p>欢迎通过以下方式联系，确认尺码、细节图和库存。</p>
+    </div>
+
+    <div class="stack-card">
+      <div class="info-row"><span>微信</span><strong>{{ contact_info.wechat }}</strong></div>
+      <div class="info-row"><span>WhatsApp</span><strong>{{ contact_info.whatsapp }}</strong></div>
+      <div class="info-row"><span>Telegram</span><strong>{{ contact_info.telegram }}</strong></div>
+      <div class="info-row"><span>手机号</span><strong>{{ contact_info.phone }}</strong></div>
+      <div class="info-row"><span>邮箱</span><strong>{{ contact_info.email }}</strong></div>
+    </div>
+  </section>
+{% endblock %}

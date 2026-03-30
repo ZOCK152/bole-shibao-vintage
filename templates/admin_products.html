@@ -1,0 +1,51 @@
+{% extends "admin_base.html" %}
+
+{% block title %}商品列表 | 后台管理{% endblock %}
+
+{% block content %}
+  <section class="shell section">
+    <div class="admin-panel-head">
+      <div>
+        <p class="eyebrow">Products</p>
+        <h1>商品列表</h1>
+      </div>
+      <a class="button primary" href="{{ url_for('admin_product_new') }}">新增商品</a>
+    </div>
+
+    {% if products %}
+      <div class="admin-product-list">
+        {% for product in products %}
+          <div class="admin-product-card">
+            <div class="admin-product-media">
+              <img src="{{ url_for('static', filename=product.main_image) }}" alt="{{ product.model }}">
+            </div>
+            <div class="admin-product-content">
+              <div class="product-line">
+                <h2>{{ product.model }}</h2>
+                <span class="price">{{ product.price }}</span>
+              </div>
+              <p class="meta">编码 {{ product.code }}</p>
+              <p class="meta">腰围 {{ product.waist }} / 裤长 {{ product.length }}</p>
+              <p class="meta">库存 {{ product.stock_status }}</p>
+
+              <div class="admin-actions">
+                <a class="button secondary small-button" href="{{ url_for('admin_product_edit', product_id=product.id) }}">编辑</a>
+                <form method="post" action="{{ url_for('admin_product_stock', product_id=product.id) }}">
+                  <input type="hidden" name="stock_status" value="{% if product.stock_status == '已售' %}有货{% else %}已售{% endif %}">
+                  <button class="button secondary small-button" type="submit">
+                    {% if product.stock_status == '已售' %}标记有货{% else %}标记已售{% endif %}
+                  </button>
+                </form>
+                <form method="post" action="{{ url_for('admin_product_delete', product_id=product.id) }}" onsubmit="return confirm('确认删除这个商品吗？');">
+                  <button class="button danger small-button" type="submit">删除</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-box">还没有商品，先新增第一条商品吧。</div>
+    {% endif %}
+  </section>
+{% endblock %}

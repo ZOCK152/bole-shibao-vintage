@@ -1,0 +1,25 @@
+{% extends "admin_base.html" %}
+
+{% block title %}后台登录{% endblock %}
+
+{% block content %}
+  <section class="shell admin-login-shell">
+    <div class="admin-auth-card">
+      <p class="eyebrow">Admin</p>
+      <h1>后台登录</h1>
+      <p class="detail-text">使用后台账号密码登录后，可直接管理商品、库存和图片。</p>
+
+      <form class="admin-form" method="post">
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input id="username" name="username" type="text" required>
+        </div>
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input id="password" name="password" type="password" required>
+        </div>
+        <button class="button primary admin-submit" type="submit">登录后台</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

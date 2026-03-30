@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}后台管理{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="admin-body">
+  <header class="site-header admin-header">
+    <div class="shell nav-wrap">
+      <a class="brand" href="{{ url_for('admin_products') }}">后台管理</a>
+      <nav class="nav">
+        <a href="{{ url_for('admin_products') }}">商品列表</a>
+        <a href="{{ url_for('admin_product_new') }}">新增商品</a>
+        <a href="{{ url_for('index') }}" target="_blank" rel="noreferrer">查看前台</a>
+        {% if session.get('admin_logged_in') %}
+          <form method="post" action="{{ url_for('admin_logout') }}">
+            <button class="link-button" type="submit">退出</button>
+          </form>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <section class="shell flash-stack">
+          {% for message in messages %}
+            <div class="flash-message">{{ message }}</div>
+          {% endfor %}
+        </section>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</body>
+</html>
